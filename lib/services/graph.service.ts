@@ -1,5 +1,5 @@
-import { TopicRepo } from '../db/repositories/topic.repo';
-import { EdgeRepo } from '../db/repositories/edge.repo';
+import { topicsRepo as TopicRepo } from '../db/repositories/topics.repo';
+import { edgesRepo as EdgeRepo } from '../db/repositories/edges.repo';
 import type { GraphData, TopicNode } from '@/types/topic.types';
 import { ObjectId } from 'mongodb';
 

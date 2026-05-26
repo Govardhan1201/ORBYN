@@ -6,6 +6,23 @@ export class EdgesRepository {
   private async db(): Promise<Db> { return getDb(); }
   private col(db: Db) { return db.collection<GraphEdge>('graph_edges'); }
 
+  async find(query: any): Promise<GraphEdge[]> {
+    const db = await this.db();
+    return this.col(db).find(query).toArray();
+  }
+
+  async create(data: Omit<GraphEdge, '_id' | 'createdAt' | 'updatedAt'>): Promise<GraphEdge> {
+    const db = await this.db();
+    const now = new Date();
+    const doc = {
+      ...data,
+      createdAt: now,
+      updatedAt: now
+    } as GraphEdge;
+    const result = await this.col(db).insertOne(doc);
+    return { ...doc, _id: result.insertedId };
+  }
+
   async findByUserId(userId: string): Promise<GraphEdge[]> {
     const db = await this.db();
     return this.col(db).find({ userId: new ObjectId(userId) }).toArray();

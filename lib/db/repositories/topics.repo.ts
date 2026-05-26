@@ -8,6 +8,11 @@ export class TopicsRepository {
   private async db(): Promise<Db> { return getDb(); }
   private col(db: Db) { return db.collection<Topic>('topics'); }
 
+  async find(query: any): Promise<Topic[]> {
+    const db = await this.db();
+    return this.col(db).find(query).toArray();
+  }
+
   async findById(id: string | ObjectId): Promise<Topic | null> {
     const db = await this.db();
     return this.col(db).findOne({ _id: new ObjectId(id) });

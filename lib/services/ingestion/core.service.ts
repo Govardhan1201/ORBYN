@@ -1,6 +1,6 @@
 import { itemsRepo } from '../../db/repositories/items.repo';
 import { topicsRepo } from '../../db/repositories/topics.repo';
-import { EdgeRepo } from '../../db/repositories/edge.repo';
+import { edgesRepo as EdgeRepo } from '../../db/repositories/edges.repo';
 import { aiClassify, aiSummarize, isAIAvailable } from '../../ai/provider';
 import { ItemType, ItemVisibility } from '@/types/item.types';
 import { ObjectId } from 'mongodb';

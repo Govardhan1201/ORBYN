@@ -106,3 +106,7 @@ export async function getDb(): Promise<Db> {
   const { db } = await connectDB();
   return db;
 }
+
+const clientPromise = connectDB().then(conn => conn.client);
+export { clientPromise };
+export default clientPromise;

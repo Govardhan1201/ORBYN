@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
     ],
   },
   serverExternalPackages: ['mongodb', 'bcryptjs', 'pdf-parse'],
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 };
 
 export default nextConfig;

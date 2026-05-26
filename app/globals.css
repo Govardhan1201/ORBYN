@@ -1,0 +1,523 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+/* ============================================================
+   CSS CUSTOM PROPERTIES — BASE DESIGN TOKENS
+   ============================================================ */
+:root {
+  --radius: 0.75rem;
+  --font-inter: 'Inter', sans-serif;
+  --font-outfit: 'Outfit', sans-serif;
+
+  /* Transition speeds */
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+
+  /* Z-index layers */
+  --z-graph: 0;
+  --z-sidebar: 10;
+  --z-topbar: 20;
+  --z-panel: 30;
+  --z-modal: 40;
+  --z-toast: 50;
+}
+
+/* ============================================================
+   THEME: PLANETS (default)
+   Deep space, cosmic, planet-like bubbles
+   ============================================================ */
+:root,
+[data-theme="planets"] {
+  --background: 222 47% 4%;
+  --foreground: 210 40% 94%;
+  --card: 222 47% 7%;
+  --card-foreground: 210 40% 94%;
+  --popover: 222 47% 6%;
+  --popover-foreground: 210 40% 94%;
+  --primary: 217 91% 60%;
+  --primary-foreground: 222 47% 4%;
+  --secondary: 222 30% 14%;
+  --secondary-foreground: 210 40% 80%;
+  --muted: 222 30% 12%;
+  --muted-foreground: 215 20% 55%;
+  --accent: 262 83% 65%;
+  --accent-foreground: 222 47% 4%;
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 222 30% 16%;
+  --input: 222 30% 14%;
+  --ring: 217 91% 60%;
+
+  /* Graph specific */
+  --graph-bg-from: #020611;
+  --graph-bg-via: #04091a;
+  --graph-bg-to: #020611;
+  --graph-node-style: planet;
+  --graph-edge-color: rgba(59, 130, 246, 0.35);
+  --graph-edge-hover: rgba(59, 130, 246, 0.8);
+  --graph-particle-color: #60a5fa;
+
+  /* Sidebar */
+  --sidebar-bg: rgba(8, 14, 30, 0.95);
+  --sidebar-border: rgba(59, 130, 246, 0.15);
+
+  /* Glow states */
+  --glow-blue: 59, 130, 246;
+  --glow-gold: 245, 158, 11;
+  --glow-green: 34, 197, 94;
+  --glow-purple: 168, 85, 247;
+  --glow-red: 239, 68, 68;
+}
+
+/* ============================================================
+   THEME: ANIME
+   Vibrant, cel-shaded, energetic
+   ============================================================ */
+[data-theme="anime"] {
+  --background: 280 40% 5%;
+  --foreground: 300 30% 95%;
+  --card: 280 40% 8%;
+  --card-foreground: 300 30% 95%;
+  --popover: 280 40% 7%;
+  --popover-foreground: 300 30% 95%;
+  --primary: 320 90% 65%;
+  --primary-foreground: 280 40% 5%;
+  --secondary: 280 30% 15%;
+  --secondary-foreground: 300 30% 80%;
+  --muted: 280 30% 12%;
+  --muted-foreground: 280 20% 55%;
+  --accent: 195 100% 55%;
+  --accent-foreground: 280 40% 5%;
+  --destructive: 5 90% 60%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 280 30% 18%;
+  --input: 280 30% 15%;
+  --ring: 320 90% 65%;
+
+  --graph-bg-from: #0d0510;
+  --graph-bg-via: #12082b;
+  --graph-bg-to: #0a0516;
+  --graph-node-style: anime;
+  --graph-edge-color: rgba(236, 72, 153, 0.35);
+  --graph-edge-hover: rgba(236, 72, 153, 0.9);
+  --graph-particle-color: #f0abfc;
+  --sidebar-bg: rgba(13, 5, 22, 0.96);
+  --sidebar-border: rgba(236, 72, 153, 0.2);
+}
+
+/* ============================================================
+   THEME: HEROIC COSMIC
+   Cinematic, high-contrast, energy cores
+   ============================================================ */
+[data-theme="heroic"] {
+  --background: 200 50% 3%;
+  --foreground: 195 80% 92%;
+  --card: 200 50% 6%;
+  --card-foreground: 195 80% 92%;
+  --popover: 200 50% 5%;
+  --popover-foreground: 195 80% 92%;
+  --primary: 195 100% 50%;
+  --primary-foreground: 200 50% 3%;
+  --secondary: 200 40% 12%;
+  --secondary-foreground: 195 60% 75%;
+  --muted: 200 40% 10%;
+  --muted-foreground: 200 25% 50%;
+  --accent: 38 100% 55%;
+  --accent-foreground: 200 50% 3%;
+  --destructive: 0 80% 58%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 200 40% 16%;
+  --input: 200 40% 12%;
+  --ring: 195 100% 50%;
+
+  --graph-bg-from: #010d12;
+  --graph-bg-via: #021825;
+  --graph-bg-to: #010d12;
+  --graph-node-style: heroic;
+  --graph-edge-color: rgba(6, 182, 212, 0.4);
+  --graph-edge-hover: rgba(6, 182, 212, 0.9);
+  --graph-particle-color: #67e8f9;
+  --sidebar-bg: rgba(1, 15, 22, 0.96);
+  --sidebar-border: rgba(6, 182, 212, 0.2);
+}
+
+/* ============================================================
+   THEME: DARK VIGIL (Noir)
+   Moody, sharp, detective board aesthetic
+   ============================================================ */
+[data-theme="noir"] {
+  --background: 0 0% 4%;
+  --foreground: 0 0% 90%;
+  --card: 0 0% 7%;
+  --card-foreground: 0 0% 90%;
+  --popover: 0 0% 6%;
+  --popover-foreground: 0 0% 90%;
+  --primary: 0 0% 85%;
+  --primary-foreground: 0 0% 4%;
+  --secondary: 0 0% 12%;
+  --secondary-foreground: 0 0% 65%;
+  --muted: 0 0% 10%;
+  --muted-foreground: 0 0% 45%;
+  --accent: 38 100% 55%;
+  --accent-foreground: 0 0% 4%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 0 0% 15%;
+  --input: 0 0% 12%;
+  --ring: 0 0% 70%;
+
+  --graph-bg-from: #080808;
+  --graph-bg-via: #0d0d0d;
+  --graph-bg-to: #050505;
+  --graph-node-style: noir;
+  --graph-edge-color: rgba(180, 180, 180, 0.2);
+  --graph-edge-hover: rgba(245, 158, 11, 0.8);
+  --graph-particle-color: #fbbf24;
+  --sidebar-bg: rgba(8, 8, 8, 0.98);
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+}
+
+/* ============================================================
+   GLOBAL BASE STYLES
+   ============================================================ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-inter);
+  background-color: hsl(var(--background));
+  color: hsl(var(--foreground));
+  min-height: 100vh;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   TYPOGRAPHY
+   ============================================================ */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+h1 { font-size: clamp(2rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); }
+h3 { font-size: clamp(1.2rem, 2.5vw, 1.75rem); }
+
+/* ============================================================
+   GLASS MORPHISM COMPONENTS
+   ============================================================ */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.glass-card {
+  background: hsl(var(--card) / 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  transition: all var(--transition-base);
+}
+
+.glass-card:hover {
+  background: hsl(var(--card) / 0.95);
+  border-color: hsl(var(--primary) / 0.3);
+  box-shadow: 0 8px 32px hsl(var(--background) / 0.8);
+  transform: translateY(-1px);
+}
+
+/* ============================================================
+   GRAPH BACKGROUND THEMES
+   ============================================================ */
+.graph-background {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    var(--graph-bg-via) 0%,
+    var(--graph-bg-from) 60%,
+    var(--graph-bg-to) 100%
+  );
+  z-index: -1;
+}
+
+/* Starfield for Planets theme */
+[data-theme="planets"] .graph-background::before,
+[data-theme="heroic"] .graph-background::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(1px 1px at 15% 25%, rgba(255,255,255,0.6) 0%, transparent 100%),
+    radial-gradient(1px 1px at 35% 65%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 55% 35%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 75% 75%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(1px 1px at 85% 15%, rgba(255,255,255,0.7) 0%, transparent 100%),
+    radial-gradient(2px 2px at 20% 80%, rgba(255,255,255,0.3) 0%, transparent 100%),
+    radial-gradient(2px 2px at 60% 10%, rgba(255,255,255,0.25) 0%, transparent 100%),
+    radial-gradient(1.5px 1.5px at 90% 50%, rgba(255,255,255,0.4) 0%, transparent 100%),
+    radial-gradient(1px 1px at 45% 90%, rgba(255,255,255,0.5) 0%, transparent 100%),
+    radial-gradient(1px 1px at 10% 55%, rgba(255,255,255,0.35) 0%, transparent 100%);
+  animation: starfield-drift 60s linear infinite;
+}
+
+@keyframes starfield-drift {
+  from { transform: translateX(0) translateY(0); }
+  to { transform: translateX(-30px) translateY(-20px); }
+}
+
+/* Grid lines for Noir theme */
+[data-theme="noir"] .graph-background::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+/* ============================================================
+   BUBBLE / GLOW STATES
+   ============================================================ */
+.bubble-glow-blue {
+  box-shadow: 0 0 20px rgba(var(--glow-blue), 0.6), 0 0 60px rgba(var(--glow-blue), 0.2);
+  border-color: rgba(var(--glow-blue), 0.5);
+}
+.bubble-glow-gold {
+  box-shadow: 0 0 20px rgba(var(--glow-gold), 0.6), 0 0 60px rgba(var(--glow-gold), 0.2);
+  border-color: rgba(var(--glow-gold), 0.5);
+}
+.bubble-glow-green {
+  box-shadow: 0 0 20px rgba(var(--glow-green), 0.6), 0 0 60px rgba(var(--glow-green), 0.2);
+  border-color: rgba(var(--glow-green), 0.5);
+}
+.bubble-glow-purple {
+  box-shadow: 0 0 20px rgba(var(--glow-purple), 0.6), 0 0 60px rgba(var(--glow-purple), 0.2);
+  border-color: rgba(var(--glow-purple), 0.5);
+}
+.bubble-glow-red {
+  box-shadow: 0 0 20px rgba(var(--glow-red), 0.6), 0 0 60px rgba(var(--glow-red), 0.2);
+  border-color: rgba(var(--glow-red), 0.5);
+}
+
+/* ============================================================
+   SIDEBAR
+   ============================================================ */
+.app-sidebar {
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+/* ============================================================
+   SCROLLBARS
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground) / 0.5);
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+.text-gradient {
+  background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--accent)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #f59e0b, #fcd34d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.border-gradient {
+  border: 1px solid transparent;
+  background: linear-gradient(hsl(var(--card)), hsl(var(--card))) padding-box,
+              linear-gradient(135deg, hsl(var(--primary) / 0.5), hsl(var(--accent) / 0.5)) border-box;
+}
+
+.shine {
+  position: relative;
+  overflow: hidden;
+}
+.shine::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -75%;
+  width: 50%;
+  height: 200%;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.08) 50%,
+    rgba(255,255,255,0) 100%
+  );
+  transform: skewX(-20deg);
+  animation: shine 4s ease-in-out infinite;
+}
+@keyframes shine {
+  0% { left: -75%; }
+  50%, 100% { left: 125%; }
+}
+
+/* Skeleton loading */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--muted)) 25%,
+    hsl(var(--muted-foreground) / 0.15) 50%,
+    hsl(var(--muted)) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s linear infinite;
+  border-radius: calc(var(--radius) - 4px);
+}
+@keyframes shimmer {
+  from { background-position: 200% 0; }
+  to { background-position: -200% 0; }
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Selection */
+::selection {
+  background: hsl(var(--primary) / 0.3);
+  color: hsl(var(--foreground));
+}
+
+/* ============================================================
+   GRAPH CANVAS OVERRIDES
+   ============================================================ */
+.graph-container canvas {
+  cursor: grab;
+}
+.graph-container canvas:active {
+  cursor: grabbing;
+}
+
+/* ============================================================
+   MEDIA TYPE BADGES
+   ============================================================ */
+.badge-link { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border-color: rgba(59, 130, 246, 0.3); }
+.badge-pdf { background: rgba(239, 68, 68, 0.15); color: #f87171; border-color: rgba(239, 68, 68, 0.3); }
+.badge-note { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-color: rgba(245, 158, 11, 0.3); }
+.badge-image { background: rgba(168, 85, 247, 0.15); color: #c084fc; border-color: rgba(168, 85, 247, 0.3); }
+.badge-video { background: rgba(236, 72, 153, 0.15); color: #f472b6; border-color: rgba(236, 72, 153, 0.3); }
+.badge-reel { background: rgba(249, 115, 22, 0.15); color: #fb923c; border-color: rgba(249, 115, 22, 0.3); }
+.badge-other { background: rgba(107, 114, 128, 0.15); color: #9ca3af; border-color: rgba(107, 114, 128, 0.3); }
+
+/* ============================================================
+   TIPTAP EDITOR
+   ============================================================ */
+.tiptap {
+  min-height: 200px;
+  padding: 1rem;
+  background: hsl(var(--input));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  color: hsl(var(--foreground));
+  font-family: var(--font-inter);
+  line-height: 1.7;
+  outline: none;
+}
+.tiptap:focus {
+  border-color: hsl(var(--ring));
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.2);
+}
+.tiptap p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  color: hsl(var(--muted-foreground));
+  pointer-events: none;
+  float: left;
+  height: 0;
+}
+.tiptap h1, .tiptap h2, .tiptap h3 { margin-bottom: 0.5rem; }
+.tiptap p { margin-bottom: 0.75rem; }
+.tiptap ul, .tiptap ol { margin-left: 1.5rem; margin-bottom: 0.75rem; }
+.tiptap code {
+  background: hsl(var(--muted));
+  padding: 0.1em 0.4em;
+  border-radius: 4px;
+  font-size: 0.875em;
+  font-family: var(--font-mono);
+}
+.tiptap blockquote {
+  border-left: 3px solid hsl(var(--primary));
+  padding-left: 1rem;
+  color: hsl(var(--muted-foreground));
+  margin: 1rem 0;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .app-sidebar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-top: 1px solid var(--sidebar-border);
+    backdrop-filter: blur(20px);
+    z-index: var(--z-sidebar);
+  }
+}
+
+/* ============================================================
+   ANIMATIONS FOR LANDING
+   ============================================================ */
+.hero-gradient {
+  background: radial-gradient(
+    ellipse 80% 60% at 50% 40%,
+    hsl(var(--primary) / 0.15),
+    transparent 70%
+  );
+}
+
+.orbit-ring {
+  border: 1px solid hsl(var(--primary) / 0.1);
+  border-radius: 50%;
+  position: absolute;
+  animation: orbit-pulse 4s ease-in-out infinite;
+}
+@keyframes orbit-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.02); }
+}

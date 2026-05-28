@@ -1,19 +1,25 @@
 import type { Metadata } from 'next';
-import { Inter, Outfit } from 'next/font/google';
+import { Sora, Hanken_Grotesk, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
 import { SessionProvider } from '@/components/providers/SessionProvider';
 import { Toaster } from '@/components/ui/Toaster';
 
-const inter = Inter({
+const hanken = Hanken_Grotesk({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-inter', // keep variable names to not break tailwind config yet, or map them
   display: 'swap',
 });
 
-const outfit = Outfit({
+const sora = Sora({
   subsets: ['latin'],
   variable: '--font-outfit',
+  display: 'swap',
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  variable: '--font-mono',
   display: 'swap',
 });
 
@@ -47,7 +53,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.variable} ${outfit.variable} antialiased`}>
+      <body className={`${hanken.variable} ${sora.variable} ${jetbrains.variable} antialiased`}>
         <SessionProvider>
           <ThemeProvider>
             {children}

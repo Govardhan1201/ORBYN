@@ -6,9 +6,10 @@ import { MongoClient } from 'mongodb';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 
 const client = new MongoClient(process.env.MONGODB_URI!);
+const clientPromise = client.connect();
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-  adapter: MongoDBAdapter(client, { databaseName: process.env.MONGODB_DB_NAME || 'orbyn' }),
+  adapter: MongoDBAdapter(clientPromise, { databaseName: process.env.MONGODB_DB_NAME || 'orbyn' }),
 
   providers: [
     Google({
@@ -95,7 +96,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     error: '/auth/error',
   },
 
-  secret: process.env.NEXTAUTH_SECRET,
+  trustHost: true,
 });
 
 export type AuthSession = Awaited<ReturnType<typeof auth>>;

@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { Eye, EyeOff, Loader2, Zap } from 'lucide-react';
+import { Eye, EyeOff, Loader2, Zap, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 export default function LoginPage() {
@@ -41,39 +41,39 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-[#020617]">
       {/* Background */}
-      <div className="graph-background" />
-      <div className="hero-gradient fixed inset-0 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,240,255,0.05)_0%,transparent_70%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:40px_40px] pointer-events-none" />
 
-      {/* Floating orbs */}
-      <div className="fixed top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#00f0ff]/10 blur-[120px] animate-pulse pointer-events-none" />
-      <div className="fixed bottom-1/3 right-1/4 w-80 h-80 rounded-full bg-[#eab308]/10 blur-[100px] animate-pulse pointer-events-none" style={{ animationDelay: '2s' }} />
+      {/* Floating Orbs */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-primary/10 blur-[120px] animate-pulse pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-purple-500/10 blur-[100px] animate-pulse pointer-events-none" style={{ animationDelay: '2s' }} />
 
       <div className="relative z-10 w-full max-w-md px-6">
-        {/* Logo */}
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4 group">
-            <div className="w-12 h-12 rounded-xl bg-[#00f0ff]/10 border border-[#00f0ff]/30 flex items-center justify-center transition-all group-hover:shadow-[0_0_20px_rgba(0,240,255,0.4)]">
-              <Zap className="w-6 h-6 text-[#00f0ff]" />
-            </div>
-            <span className="font-display text-3xl font-bold tracking-tight text-white">Orbyn</span>
+        
+        {/* Logo and Header */}
+        <div className="text-center mb-10">
+          <Link href="/" className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 mb-6 shadow-[0_0_30px_rgba(0,240,255,0.15)] group transition-all duration-500 hover:scale-105 hover:bg-primary/20 hover:border-primary/40">
+            <Zap className="w-8 h-8 text-primary group-hover:drop-shadow-[0_0_10px_rgba(0,240,255,0.8)] transition-all" />
           </Link>
-          <h1 className="text-3xl font-display font-extrabold tracking-tight text-white">Welcome back</h1>
-          <p className="text-gray-400 mt-2">Sign in to your knowledge universe</p>
+          <h1 className="text-4xl font-display font-bold tracking-tight text-white mb-2">
+            Welcome back
+          </h1>
+          <p className="text-gray-400 font-light">
+            Enter your credentials to access your intelligence network
+          </p>
         </div>
 
         {/* Card */}
-        <div className="glass-card p-8 bg-[#0a0a0c]/80 backdrop-blur-2xl border-t border-l border-t-white/10 border-l-white/10 border-b-black border-r-black rounded-2xl shadow-2xl">
+        <div className="bg-[#09090b]/60 backdrop-blur-3xl border border-white/10 rounded-3xl p-8 shadow-2xl relative overflow-hidden group hover:border-white/20 transition-all duration-500">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-[40px] pointer-events-none group-hover:bg-primary/10 transition-colors duration-500" />
+
           {/* Google OAuth */}
           <button
             onClick={handleGoogle}
             disabled={googleLoading}
-            className={cn(
-              'w-full flex items-center justify-center gap-3 py-3.5 px-4 rounded-xl border',
-              'border-white/10 bg-white/5 hover:bg-white/10 transition-all text-sm font-semibold text-white',
-              'hover:border-white/20 disabled:opacity-50 disabled:cursor-not-allowed'
-            )}
+            className="w-full flex items-center justify-center gap-3 py-3.5 px-4 rounded-xl bg-white/5 border border-white/10 text-white font-medium hover:bg-white/10 hover:border-white/20 transition-all duration-300 disabled:opacity-50"
           >
             {googleLoading ? (
               <Loader2 className="w-5 h-5 animate-spin text-gray-400" />
@@ -88,22 +88,22 @@ export default function LoginPage() {
             Continue with Google
           </button>
 
-          <div className="flex items-center gap-3 my-8">
-            <div className="flex-1 h-px bg-white/10" />
-            <span className="text-xs text-gray-500 uppercase tracking-widest font-mono">or continue with email</span>
-            <div className="flex-1 h-px bg-white/10" />
+          <div className="flex items-center gap-4 my-8">
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+            <span className="text-xs text-gray-500 font-medium">OR EMAIL</span>
+            <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
           </div>
 
           {/* Email form */}
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-5">
             {error && (
-              <div className="px-3 py-2 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
+              <div className="px-4 py-3 rounded-xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium">
                 {error}
               </div>
             )}
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300" htmlFor="email">Email</label>
+            <div className="space-y-1.5">
+              <label className="text-sm font-medium text-gray-300 ml-1" htmlFor="email">Email Address</label>
               <input
                 id="email"
                 type="email"
@@ -111,17 +111,15 @@ export default function LoginPage() {
                 onChange={e => setEmail(e.target.value)}
                 placeholder="you@example.com"
                 required
-                className={cn(
-                  'w-full px-4 py-3 rounded-xl bg-[#050505] border border-white/10',
-                  'text-white placeholder-gray-600 text-sm',
-                  'focus:outline-none focus:border-[#eab308] focus:shadow-[0_0_15px_rgba(234,179,8,0.2)]',
-                  'transition-all'
-                )}
+                className="w-full px-4 py-3.5 rounded-xl bg-black/50 border border-white/10 text-white placeholder-gray-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all duration-300 shadow-inner"
               />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-300" htmlFor="password">Password</label>
+            <div className="space-y-1.5">
+              <div className="flex justify-between items-center ml-1">
+                <label className="text-sm font-medium text-gray-300" htmlFor="password">Password</label>
+                <Link href="#" className="text-xs text-primary hover:text-white transition-colors">Forgot?</Link>
+              </div>
               <div className="relative">
                 <input
                   id="password"
@@ -130,19 +128,14 @@ export default function LoginPage() {
                   onChange={e => setPassword(e.target.value)}
                   placeholder="••••••••"
                   required
-                  className={cn(
-                    'w-full px-4 py-3 pr-10 rounded-xl bg-[#050505] border border-white/10',
-                    'text-white placeholder-gray-600 text-sm',
-                    'focus:outline-none focus:border-[#eab308] focus:shadow-[0_0_15px_rgba(234,179,8,0.2)]',
-                    'transition-all'
-                  )}
+                  className="w-full px-4 py-3.5 pr-12 rounded-xl bg-black/50 border border-white/10 text-white placeholder-gray-600 focus:outline-none focus:border-primary/50 focus:ring-1 focus:ring-primary/50 transition-all duration-300 shadow-inner"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPw(!showPw)}
                   className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white transition-colors"
                 >
-                  {showPw ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPw ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               </div>
             </div>
@@ -150,21 +143,17 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className={cn(
-                'w-full py-3.5 mt-4 rounded-xl bg-[#00f0ff] text-black font-bold text-sm',
-                'hover:bg-[#00dbe9] transition-all active:scale-[0.98] shadow-[0_0_20px_rgba(0,240,255,0.4)]',
-                'disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none',
-                'flex items-center justify-center gap-2'
-              )}
+              className="group w-full py-3.5 mt-4 rounded-xl bg-white text-black font-semibold hover:bg-gray-100 transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] disabled:opacity-70"
             >
               {loading && <Loader2 className="w-5 h-5 animate-spin" />}
-              Sign In
+              <span>Sign In</span>
+              {!loading && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
             </button>
           </form>
 
           <p className="text-center text-sm text-gray-400 mt-8">
             Don't have an account?{' '}
-            <Link href="/auth/signup" className="text-[#00f0ff] hover:text-white transition-colors font-semibold">
+            <Link href="/auth/signup" className="text-white hover:text-primary transition-colors font-medium">
               Create one free
             </Link>
           </p>
